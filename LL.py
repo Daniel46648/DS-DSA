@@ -154,4 +154,28 @@ class LinkedList:
                 temp = temp.next
         return num
 
+    def partition_list(self, x):
+        if self.length == 0 or self.length == 1:
+            return self.head
+        else:
+            d1 = Node(0)
+            d2 = Node(0)
+            prev1 = d1
+            prev2 = d2
+            temp = self.head
+            while temp is not None:
+                if temp.value < x:
+                    prev1.next = temp
+                    prev1 = prev1.next
+                else:
+                    prev2.next = temp
+                    prev2 = prev2.next
+                temp = temp.next
+                
+            prev1.next = d2.next
+            prev2.next = None
+            d2.next = None
+            self.head = d1.next
+            d1.next = None
+
 #This was it with the Linked Lists
