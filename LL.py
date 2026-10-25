@@ -15,7 +15,7 @@ class LinkedList:
         while temp is not None:
             print(temp.value)
             temp = temp.next
-
+            
     def append(self, value):
         new_node = Node(value)
         if self.head is None:
@@ -125,5 +125,33 @@ class LinkedList:
             temp.next = before
             before = temp
             temp = after
+
+    def remove_duplicates(self):
+        if self.head is None or self.head.next is None:
+            return self.head
+        else:
+            x = set()
+            temp = self.head
+            while temp.next is not None:
+                if temp.next.value in x:
+                    temp.next = temp.next.next
+                    self.length -= 1
+                else:
+                    x.add(temp.next.value)
+                    temp = temp.next
+
+    def binary_to_decimal(self):
+        num = 0
+        if self.head is None:
+            return None
+        else:
+            temp = self.head
+            while temp is not None:
+                if temp.value == 1:
+                    num += 1
+                if temp.next:
+                    num = num * 2
+                temp = temp.next
+        return num
 
 #This was it with the Linked Lists
