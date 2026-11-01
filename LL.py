@@ -178,4 +178,56 @@ class LinkedList:
             self.head = d1.next
             d1.next = None
 
-#This was it with the Linked Lists
+    def reverse_between(self, start, end):
+        if self.length <= 1:
+            return None
+        if start == 0:
+            d = Node(0)
+            d.next = self.head
+            prev = d
+        else:
+            prev = self.head
+        for i in range(start - 1):
+            prev = prev.next
+        current = prev.next
+        for _ in range(end - start):
+            to_move = current.next
+            current.next = to_move.next
+            to_move.next = prev.next
+            prev.next = to_move
+        if start == 0:
+            self.head = d.next
+
+    def swap_in_pairs(self):
+        if self.length == 0 or self.length == 1:
+            return self.head
+        temp = self.head
+        fast = temp.next
+        pre = temp
+        while fast.next:
+            temp = temp.next
+            temp.next = pre
+            pre.next = fast
+            fast = temp.next
+            temp = pre
+
+    def swap_pairs(self):
+        if not self.head or not self.head.next:
+            return self.head
+        temp = self.head
+        fast = temp
+        d = Node(0)
+        d.next = self.head
+        pre = d
+        while pre.next and pre.next.next:
+            temp = pre.next
+            fast = temp.next
+            temp.next = fast.next
+            fast.next = temp
+            pre.next = fast
+            pre = temp
+        
+        self.head = d.next
+        d.next = None
+            
+#This is the end of my learning stage about pointers and LL in python
