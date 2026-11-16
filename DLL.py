@@ -30,16 +30,18 @@ class DoublyLinkedList:
         return True
 
     def pop(self):
+        temp = self.tail
         if self.length == 0:
             return None
-        temp = self.tail
-        self.tail.prev = self.tail
-        self.tail.next = None
-        temp.prev = None
-        self.length -= 1
-        if self.length == 0:
+        if self.length == 1:
             self.head = None
             self.tail = None
+            self.length -= 1
+            return temp
+        self.tail = temp.prev
+        temp.prev.next = None
+        temp.prev = None
+        self.length -= 1
         return temp
 
     def prepend(self, val):
@@ -51,7 +53,7 @@ class DoublyLinkedList:
             new_node.next = self.head
             self.head.prev = new_node
             self.head = new_node
-            self.length += 1
+        self.length += 1
         return True
 
     def pop_first(self):
@@ -89,7 +91,7 @@ class DoublyLinkedList:
         return False
 
     def insert(self, index, value):
-        if index < 0 or index >= self.length:
+        if index < 0 or index > self.length:
             return None
         if index == 0:
             return self.prepend(value)
@@ -103,4 +105,49 @@ class DoublyLinkedList:
         temp.prev = new_node
         new_node.prev = pre
 
+        self.length += 1
+        return True
 
+    def remove(self, index):
+        if index < 0 or index >= self.length:
+            return None
+        if index == 0:
+            return self.pop_first()
+        if index == self.length - 1:
+            return self.pop()
+        temp = self.get(index)
+        temp.next.prev = temp.prev
+        temp.prev.next = temp.next
+        temp.next = None
+        temp.prev = None
+        self.length -= 1
+        return temp
+
+    def palindrome_check(self):
+        if self.length <= 1:
+            return True
+        fw = self.head
+        bw = self.tail
+        while fw != bw and fw.prev != bw:
+            if bw.value != fw.value
+                return False
+            bw = bw.prev
+            fw = fw.next
+        return True
+
+    def reverse(self):
+        if self.length == 0:
+            return False
+        if self.length == 1:
+            return True
+        current = self.head
+        while current:
+            temp = current.prev
+            current.prev = current.next
+            current.next = temp
+            current = current.prev
+        quick = self.head
+        self.head = self.tail
+        self.tail = quick
+        quick.next = None
+        return True
