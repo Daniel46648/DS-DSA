@@ -129,7 +129,7 @@ class DoublyLinkedList:
         fw = self.head
         bw = self.tail
         while fw != bw and fw.prev != bw:
-            if bw.value != fw.value
+            if bw.value != fw.value:
                 return False
             bw = bw.prev
             fw = fw.next
@@ -151,3 +151,91 @@ class DoublyLinkedList:
         self.tail = quick
         quick.next = None
         return True
+
+    def partition_list(self, x):
+        if self.length <= 1:
+            return False
+        D1 = Node(0)
+        D2 = Node(0)
+        pre = D1
+        pre2 = D2
+        cur = self.head
+        while cur:
+            nxt = cur.next
+            cur.prev = None
+            cur.next = None
+            if cur.value < x:
+                cur.prev = pre
+                pre.next = cur
+                pre = pre.next
+            else:
+                cur.prev = pre2
+                pre2.next = cur
+                pre2 = pre2.next
+            cur = nxt
+        if D1.next is None:
+            self.head = D2.next
+            self.head.prev = None
+            self.tail = pre2
+            return True
+
+        self.head = D1.next
+        self.head.prev = None
+
+        if D2.next is not None:
+            pre.next = D2.next
+            D2.next.prev = pre
+            self.tail = pre2
+        else:
+            self.tail = pre
+        D1.next = None
+        D2.next = None
+        return True
+
+    def reverse_between(self, start_index, end_index):
+        if start_index < 0:
+            return False
+        if start_index >= self.length:
+            return False
+        if self.length == 0:
+            return False
+        if self.length == 1:
+            return True
+        if end_index >= self.length or start_index > end_index:
+            return False
+        if start_index == end_index:
+            return True
+
+        if start_index == 0:
+            d1 = Node(0)
+            d1.next = self.head
+            self.head.prev = d1
+        temp = self.head
+        for _ in range(start_index):
+            temp = temp.next
+        start_node = temp
+        before = temp.prev
+
+        last_reversed = None
+        for _ in range(end_index - start_index + 1):
+            last_reversed = temp
+            pre = temp.prev
+            temp.prev = temp.next
+            temp.next = pre
+            temp = temp.prev
+        before.next = last_reversed
+        last_reversed.prev = before
+
+        start_node.next = temp
+        if temp:
+            temp.prev = start_node
+
+        if end_index == self.length - 1:
+            self.tail = start_node
+
+        if start_index == 0:
+            self.head = d1.next
+            self.head.prev = None
+            d1.next = None
+        return True
+
