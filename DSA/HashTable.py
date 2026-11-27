@@ -38,3 +38,40 @@ def item_in_common(list1, list2):
         if j in my_dict:
             return True
     return False
+
+def find_duplicates(nums):
+    results = []
+    my_dict = {}
+    for i in nums:
+        if i in my_dict:
+            if i not in results:
+                results.append(i)
+            else:
+                continue
+        else:
+            my_dict[i] = True
+    return results
+
+def first_non_repeating_char(string):
+    if len(string) == 0:
+        return None
+    my_dict = {}
+    for i in string:
+        if i not in my_dict:
+            my_dict[i] = True
+        else:
+            my_dict[i] = False
+    for j in string:
+        if my_dict[j] == True:
+            return j
+    return None
+
+def group_anagrams(strings):
+    anagram_groups = {}
+    for string in strings:
+        cannonical = "".join(sorted(string))
+        if cannonical in anagram_groups:
+            anagram_groups[cannonical].append(string)
+        else:
+            anagram_groups[cannonical] = [string]
+    return list(anagram_groups.values())
